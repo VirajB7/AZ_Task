@@ -7,6 +7,16 @@ export default {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    function ({ addBase }) {
+      addBase({
+        '::-webkit-scrollbar': { display: 'none' }, /* Hide scrollbar for Chrome, Safari, and Opera */
+        '*': {
+          'scrollbar-width': 'none', /* Firefox */
+          '-ms-overflow-style': 'none', /* IE and Edge */
+        },
+      });
+    },
+  ],
 }
 
