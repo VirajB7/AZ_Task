@@ -13,14 +13,7 @@ const CardList = () => {
       {cards
       .map((card, index) => (
         <CollapsibleCard key={index}
-          part={card.part}
-          description={card.description}
-          time={card.time}
-          difficulty={card.difficulty}
-          subTasks={card.subTasks}
-          progress={card.progress}
-          progressColor={card.progressColor}
-          progressHeight={card.progressHeight}
+          {...card}
         />
       ))}
     </div>
