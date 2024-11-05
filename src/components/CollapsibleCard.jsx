@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { childList } from '../constants/constants';
+import WindowLength from '../components/WindowLength'
 
 // SVG Components
 const UpArrow = () => (
@@ -17,9 +18,9 @@ const DownArrow = () => (
 // Progress Bar Component
 const ProgressBar = ({ progress = 0, color = "bg-blue-500", height = "h-1" }) => {
   return (
-    <div className="w-full bg-gray-200" style={{ height: '2px' }}>
+    <div className="w-full bg-gray-200 rounded-lg" style={{ height: '2px' }}>
       <div
-        className={`${color} ${height} transition-all duration-300 ease-in-out`}
+        className={`${color} ${height} transition-all rounded-bl-lg  duration-300 ease-in-out`}
         style={{ width: `${Math.min(Math.max(progress, 0), 100)}%` }}
       />
     </div>
@@ -31,14 +32,15 @@ export const CollapsibleCard = ({
   description,
   time,
   difficulty,
-  subtasks,
+  subTasks,
   progress,
   progressColor = "bg-blue-500",
-  progressHeight = "h-1"
+  progressHeight = "h-2",
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const index=part.split(' ')[1]
   const subTasksList = childList[index-1];
+  const isWindowLarge = WindowLength();
 
   const toggleCard = () => {
     setIsOpen(!isOpen);
@@ -46,33 +48,33 @@ export const CollapsibleCard = ({
 
   return (
     <div className="w-full h-auto mx-auto mb-4">
-      <div className="bg-white rounded-t-lg shadow-md">
+      <div className="bg-white rounded-lg shadow-lg">
         {/* Card Header */}
         <div
-          className="p-4 cursor-pointer hover:bg-gray-50 transition-colors"
+          className=" p-4 cursor-pointer hover:bg-gray-50 hover:rounded-lg transition-colors"
           onClick={toggleCard}
         >
           <div className="flex flex-row  justify-between h-[100%] w-[100%]">
             <div className=" flex flex-row h-[100%] w-[100%]">
               <div className="flex flex-col  justify-between  h-[100%] w-[50%] ">
                 <div><span className="text-[#17384D] text-md">{part}</span></div>
-                <div><span className="text-black-500 text-md ">{description}</span></div>
+                <div><span className={`text-black-500 ${isWindowLarge?'text-md':'text-sm'}`}>{description}</span></div>
               </div>
 
 
               <div className="flex-col space-y-2 justify-between items-end  h-[100%] w-[50%] ">
                         <div className=' flex justify-end gap-4 p-2'>
                             <div className='flex justify-between'>
-                                <img src="/ClockOutline.svg" alt="clock" className='w-6 h-6'/>
-                                <span className="text-[#17384D] text-md">{time}</span>
+                                <img src="/ClockOutline.svg" alt="clock" className={`${isWindowLarge?'w-6 h-6':'w-4 h-4'}`}/>
+                                <span className={`text-[#17384D] ${isWindowLarge?'text-md':'text-[0.75rem]'}`}>{time}</span>
                             </div>
                             <div  className='flex justify-between'>
-                                <img src="/ChartBarOutline.svg" alt="diff" className='w-6 h-6' />
-                                <span className="text-[#17384D] text-md">{difficulty}</span>
+                                <img src="/ChartBarOutline.svg" alt="diff" className={`${isWindowLarge?'w-6 h-6':'w-4 h-4'}`} />
+                                <span className={`text-[#17384D] ${isWindowLarge?'text-md':'text-[0.75rem]'}`}>{difficulty}</span>
                             </div>
                             <div  className='flex justify-between'>
-                                <img src="/DocumentDuplicateOutline.svg" alt="clock" className='w-6 h-6' />
-                                <span className="text-[#17384D] text-md">{subtasks}</span>
+                                <img src="/DocumentDuplicateOutline.svg" alt="clock" className={`${isWindowLarge?'w-6 h-6':'w-4 h-4'}`} />
+                                <span className={`text-[#17384D] ${isWindowLarge?'text-md':'text-[0.75rem]'}`}>{subTasks}</span>
                             </div>
                             <button
                                 className=" hover:bg-gray-100 rounded-full transition-colors"
@@ -84,20 +86,21 @@ export const CollapsibleCard = ({
 
                         </div>
                         <div className='justify-end flex '>
-                            <span className="text-[#17384D] p-[2px] text-md bg-[#EFF5FF] border-[1px] border-solid border-[#99E4FF] rounded-sm">{progress}% Completed</span>
+                            <span className="text-[#17384D] p-[2px] text-[0.75rem] bg-[#EFF5FF] border-[1px] border-solid border-[#99E4FF] rounded-sm">{progress}% Completed</span>
                         </div>
               </div>
             </div>
+            
           </div>
         </div>
-        {isOpen?null:<ProgressBar className={"rounded-b-md overflow-hidden transition-all duration-500 ease-in-out"} 
+        <ProgressBar className={`rounded-lg`} 
           progress={progress}
           color={progressColor}
           height={progressHeight}
-        /> }
+        />
         {/* Card Content */}
          <div
-          className={`transition-all duration-300 ease-in-out ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}
+          className={`transition-all duration-300 ease-in-out ${isOpen ? 'max-h-96' : ' max-h-0 hidden'}`}
         >
           <div className="p-4 border-t border-gray-100 space-y-4">
             <div className="flex flex-col justify-between items-left">
@@ -116,19 +119,12 @@ export const CollapsibleCard = ({
                 ))}
              
             </div>
-          </div>
-          {isOpen?<ProgressBar className={"rounded-b-md overflow-hidden transition-all duration-500 ease-in-out"} 
-          progress={progress}
-          color={progressColor}
-          height={progressHeight}
-        />:null }
-           
+          </div>   
         </div> 
-
+        </div>
         {/* Progress Bar */}
-      
+     
       </div>
-    </div>
   );
 };
 
