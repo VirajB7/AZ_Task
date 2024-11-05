@@ -1,5 +1,5 @@
 import React from 'react'
-import Sidebar from './sections/sidebar'
+import Sidebar from './sections/Sidebar'
 import MainPage from './sections/MainPage'
 function App() {
   return (

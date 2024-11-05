@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {CollapsibleCard} from '../components/CollapsibleCard';
 import { cardsList,childList } from '../constants/constants';
 import WindowLength from '../components/WindowLength';
